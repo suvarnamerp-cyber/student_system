@@ -1,15 +1,27 @@
 package com.example.ankush.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-@Data
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor 
 @Entity
 @Table(name="students")
 public class User {
@@ -21,8 +33,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String studentId;
 
-    private String studentName;
-    private String studentClass;
+    private String studentName; 
+    private String studentClass; 
     private String fatherName;
     private LocalDate dob;
     private String gender;
@@ -33,5 +45,8 @@ public class User {
     private String imagePath;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Bank bankDetails;
+    private Bank bankDetails; 
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudentDocuments> documents = new ArrayList<>();
 }
