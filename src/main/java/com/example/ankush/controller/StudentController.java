@@ -19,29 +19,21 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-
-
-
     // get all the student info,,,,,,,, only getDto
     @GetMapping("/all")
     public ResponseEntity<List<GetDto>> getAllDto(){
         return ResponseEntity.ok(studentService.allUser());
     }
 
-
-
     //                         mapping,,,,,,, creating new student,,,,,,,
-
     @PostMapping(value="/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<UpdateUserDto> createUser(
             @RequestPart("data") String studentDtoJson,
             @RequestPart(value = "image", required = false) MultipartFile imageFile,
         @RequestPart(value = "documents", required = false) List<MultipartFile> documents) throws IOException {
 
-
         //               converting the studentDtoJson to dto,,,,,,,,,,,using service
         UpdateUserDto dto = studentService.convertJsonToDto(studentDtoJson);
-
 
         //              if image is there,,,,,,, put it into the dto,,,,,,,
         if(imageFile != null){
@@ -57,50 +49,12 @@ public class StudentController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //                 ,,,,,,,,,,,,,,,,, get student info by id,,,,,,,,,,,,,,,,,
     @GetMapping("/{studentId}")
     public ResponseEntity<GetDto> getById(@PathVariable String studentId) throws Throwable {
         GetDto user = studentService.findStudent(studentId);
         return ResponseEntity.ok(user);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //                        ,,,,update user by student id,,,,,,, updateUserDto
     @PutMapping(value = "/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -109,7 +63,6 @@ public class StudentController {
             @RequestPart("data") String studentJsonDto,
             @RequestPart(value = "image", required = false) MultipartFile imageFile,
         @RequestPart(value = "documents", required = false) List<MultipartFile> documents) throws IOException {
-
 
         //        ,,,,,,,,converting json to dto
         UpdateUserDto dto = studentService.convertJsonToDto(studentJsonDto);
@@ -127,39 +80,10 @@ public class StudentController {
         return ResponseEntity.ok(updatedUser);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //            ...............deleting the student info using student id
     @DeleteMapping("/{studentId}")
     public ResponseEntity<String> deleteById(@PathVariable String studentId){
         studentService.removeUser(studentId);
         return ResponseEntity.ok("deleted");
     }
-
-
-
-
-
-
-
-
-
 }
